@@ -26,14 +26,19 @@ class OrderService extends SoapClientCurl
     const SOAP_CLIENT_ERROR_MERCHANT   = 'MerchantException';
     const SOAP_CLIENT_ERROR_PROCESSING = 'ProcessingException';
 
+    private $debug;
+
     /**
      * @param array  $curlOptions CURL config values
      * @param string $username    API user
      * @param string $password    API pass
+     * @param bool   $debug       Flag, debug mode
      */
-    public function __construct($curlOptions, $username, $password)
+    public function __construct($curlOptions, $username, $password, $debug = false)
     {
         parent::__construct($curlOptions, $username, $password);
+
+        $this->$debug = $debug;
     }
 
     /**
@@ -78,9 +83,19 @@ class OrderService extends SoapClientCurl
         $request->appendChild($envelope);
         $xml = $request->saveXML();
 
-        var_dump($xml);
+        if ($this->debug) {
+            var_dump($xml);
+        }
+
         $response = $this->doRequest($xml);
-        var_dump($response);
+
+        if ($this->debug) {
+            var_dump($response);
+        }
+
+        if ($response === false) {
+            throw new \Exception($this->getErrorMessage());
+        }
 
         $responseDoc = new \DOMDocument('1.0', 'UTF-8');
         $responseDoc->loadXML($response);

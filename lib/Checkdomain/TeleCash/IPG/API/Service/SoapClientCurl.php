@@ -87,4 +87,12 @@ class SoapClientCurl
         //Return response info
         return $response;
     }
+
+    /**
+     * @return string
+     */
+    public function getErrorMessage()
+    {
+        return $this->curlStatusCode . ': ' . $this->curlErrorMsg;
+    }
 }

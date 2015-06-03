@@ -115,11 +115,7 @@ class ErrorResponse extends AbstractResponse
                             break;
 
                         case self::SOAP_CLIENT_ERROR_PROCESSING:
-                            $detail = '';
-                            $apiOrderResponse = $errorDetail->item(0); //enthält ein ipgapi:IPGApiOrderResponse Element
-                            //TODO ProcessingException auswerten
-
-                            $response->clientErrorDetail = $detail;
+                            $response->clientErrorDetail = self::firstElementByTagNSString($document, OrderService::NAMESPACE_N3, 'ErrorMessage');;
                             break;
 
                         default:
