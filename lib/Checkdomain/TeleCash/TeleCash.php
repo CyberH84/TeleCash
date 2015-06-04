@@ -2,19 +2,9 @@
 
 namespace Checkdomain\TeleCash;
 
-use Checkdomain\TeleCash\IPG\API\Model\CreditCardData;
-use Checkdomain\TeleCash\IPG\API\Model\CreditCardItem;
-use Checkdomain\TeleCash\IPG\API\Model\DataStorageItem;
-use Checkdomain\TeleCash\IPG\API\Model\Payment;
-use Checkdomain\TeleCash\IPG\API\Model\RecurringPaymentInformation;
-use Checkdomain\TeleCash\IPG\API\Request\Action;
-use Checkdomain\TeleCash\IPG\API\Request\Transaction;
-use Checkdomain\TeleCash\IPG\API\Response\ErrorResponse;
-use Checkdomain\TeleCash\IPG\API\Response\Action\ConfirmRecurringResponse;
-use Checkdomain\TeleCash\IPG\API\Response\Action\ConfirmResponse;
-use Checkdomain\TeleCash\IPG\API\Response\Action\DisplayResponse;
-use Checkdomain\TeleCash\IPG\API\Response\Action\ValidationResponse;
-use Checkdomain\TeleCash\IPG\API\Response\Order\SellResponse;
+use Checkdomain\TeleCash\IPG\API\Model;
+use Checkdomain\TeleCash\IPG\API\Request;
+use Checkdomain\TeleCash\IPG\API\Response;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
@@ -78,7 +68,7 @@ class TeleCash
      * @param string $ccNumber
      * @param string $ccValid
      *
-     * @return ValidationResponse|ErrorResponse
+     * @return Response\Action\Validation|Response\Error
      * @throws \Exception
      */
     public function validate($ccNumber, $ccValid)
@@ -87,8 +77,8 @@ class TeleCash
 
         $validMonth     = substr($ccValid, 0, 2);
         $validYear      = substr($ccValid, 3, 4);
-        $ccData         = new CreditCardData($ccNumber, $validMonth, $validYear);
-        $validateAction = new Action\Validate($service, $ccData);
+        $ccData         = new Model\CreditCardData($ccNumber, $validMonth, $validYear);
+        $validateAction = new Request\Action\Validate($service, $ccData);
 
         return $validateAction->validate();
     }
@@ -100,7 +90,7 @@ class TeleCash
      * @param string $ccValid
      * @param string $hostedDataId
      *
-     * @return ConfirmResponse|ErrorResponse
+     * @return Response\Action\Confirm|Response\Error
      * @throws \Exception
      */
     public function storeHostedData($ccNumber, $ccValid, $hostedDataId)
@@ -109,9 +99,9 @@ class TeleCash
 
         $validMonth  = substr($ccValid, 0, 2);
         $validYear   = substr($ccValid, 3, 4);
-        $ccData      = new CreditCardData($ccNumber, $validMonth, $validYear);
-        $ccItem      = new CreditCardItem($ccData, $hostedDataId);
-        $storeAction = new Action\StoreHostedData($service, $ccItem);
+        $ccData      = new Model\CreditCardData($ccNumber, $validMonth, $validYear);
+        $ccItem      = new Model\CreditCardItem($ccData, $hostedDataId);
+        $storeAction = new Request\Action\StoreHostedData($service, $ccItem);
 
         return $storeAction->store();
     }
@@ -121,15 +111,15 @@ class TeleCash
      *
      * @param string $hostedDataId
      *
-     * @return DisplayResponse|ErrorResponse
+     * @return Response\Action\Display|Response\Error
      * @throws \Exception
      */
     public function displayHostedData($hostedDataId)
     {
         $service = $this->getService();
 
-        $storageItem   = new DataStorageItem($hostedDataId);
-        $displayAction = new Action\DisplayHostedData($service, $storageItem);
+        $storageItem   = new Model\DataStorageItem($hostedDataId);
+        $displayAction = new Request\Action\DisplayHostedData($service, $storageItem);
 
         return $displayAction->display();
     }
@@ -139,15 +129,15 @@ class TeleCash
      *
      * @param string $hostedDataId
      *
-     * @return ValidationResponse|ErrorResponse
+     * @return Response\Action\Validation|Response\Error
      * @throws \Exception
      */
     public function validateHostedData($hostedDataId)
     {
         $service = $this->getService();
 
-        $payment        = new Payment($hostedDataId);
-        $validateAction = new Action\ValidateHostedData($service, $payment);
+        $payment        = new Model\Payment($hostedDataId);
+        $validateAction = new Request\Action\ValidateHostedData($service, $payment);
 
         return $validateAction->validate();
     }
@@ -157,15 +147,15 @@ class TeleCash
      *
      * @param string $hostedDataId
      *
-     * @return ConfirmResponse|ErrorResponse
+     * @return Response\Action\Confirm|Response\Error
      * @throws \Exception
      */
     public function deleteHostedData($hostedDataId)
     {
         $service = $this->getService();
 
-        $storageItem  = new DataStorageItem($hostedDataId);
-        $deleteAction = new Action\DeleteHostedData($service, $storageItem);
+        $storageItem  = new Model\DataStorageItem($hostedDataId);
+        $deleteAction = new Request\Action\DeleteHostedData($service, $storageItem);
 
         return $deleteAction->delete();
     }
@@ -176,15 +166,15 @@ class TeleCash
      * @param string $hostedDataId
      * @param float  $amount
      *
-     * @return SellResponse|ErrorResponse
+     * @return Response\Order\Sell|Response\Error
      * @throws \Exception
      */
     public function sellUsingHostedData($hostedDataId, $amount)
     {
         $service = $this->getService();
 
-        $payment    = new Payment($hostedDataId, $amount);
-        $sellAction = new Transaction\SellHostedData($service, $payment);
+        $payment    = new Model\Payment($hostedDataId, $amount);
+        $sellAction = new Request\Transaction\SellHostedData($service, $payment);
 
         return $sellAction->sell();
     }
@@ -199,15 +189,15 @@ class TeleCash
      * @param int       $frequency
      * @param string    $period
      *
-     * @return ConfirmRecurringResponse|ErrorResponse
+     * @return Response\Action\ConfirmRecurring|Response\Error
      */
     public function installRecurringPayment($hostedDataId, $amount, \DateTime $startDate, $count, $frequency, $period)
     {
         $service = $this->getService();
 
-        $paymentInformation     = new RecurringPaymentInformation($startDate, $count, $frequency, $period);
-        $payment                = new Payment($hostedDataId, $amount);
-        $recurringPaymentAction = new Action\RecurringPayment\Install($service, $payment, $paymentInformation);
+        $paymentInformation     = new Model\RecurringPaymentInformation($startDate, $count, $frequency, $period);
+        $payment                = new Model\Payment($hostedDataId, $amount);
+        $recurringPaymentAction = new Request\Action\RecurringPayment\Install($service, $payment, $paymentInformation);
 
         return $recurringPaymentAction->install();
     }
@@ -220,11 +210,11 @@ class TeleCash
      * @param string $hostedDataId
      * @param float  $amount
      *
-     * @return ConfirmRecurringResponse|ErrorResponse
+     * @return Response\Action\ConfirmRecurring|Response\Error
      */
     public function installOneTimeRecurringPayment($hostedDataId, $amount)
     {
-        return $this->installRecurringPayment($hostedDataId, $amount, new \DateTime(), 1, 1, RecurringPaymentInformation::PERIOD_MONTH);
+        return $this->installRecurringPayment($hostedDataId, $amount, new \DateTime(), 1, 1, Model\RecurringPaymentInformation::PERIOD_MONTH);
     }
 
     /**
@@ -238,15 +228,15 @@ class TeleCash
      * @param int            $frequency
      * @param string         $period
      *
-     * @return ConfirmRecurringResponse|ErrorResponse
+     * @return Response\Action\ConfirmRecurring|Response\Error
      */
     public function modifyRecurringPayment($orderId, $hostedDataId, $amount, $startDate, $count, $frequency, $period)
     {
         $service = $this->getService();
 
-        $paymentInformation     = new RecurringPaymentInformation($startDate, $count, $frequency, $period);
-        $payment                = new Payment($hostedDataId, $amount);
-        $recurringPaymentAction = new Action\RecurringPayment\Modify($service, $orderId, $payment, $paymentInformation);
+        $paymentInformation     = new Model\RecurringPaymentInformation($startDate, $count, $frequency, $period);
+        $payment                = new Model\Payment($hostedDataId, $amount);
+        $recurringPaymentAction = new Request\Action\RecurringPayment\Modify($service, $orderId, $payment, $paymentInformation);
 
         return $recurringPaymentAction->modify();
     }
@@ -256,13 +246,13 @@ class TeleCash
      *
      * @param string $orderId
      *
-     * @return ConfirmRecurringResponse|ErrorResponse
+     * @return Response\Action\ConfirmRecurring|Response\Error
      */
     public function cancelRecurringPayment($orderId)
     {
         $service = $this->getService();
 
-        $recurringPaymentAction = new Action\RecurringPayment\Cancel($service, $orderId);
+        $recurringPaymentAction = new Request\Action\RecurringPayment\Cancel($service, $orderId);
 
         return $recurringPaymentAction->cancel();
     }

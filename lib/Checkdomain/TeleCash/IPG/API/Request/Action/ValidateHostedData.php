@@ -4,8 +4,8 @@ namespace Checkdomain\TeleCash\IPG\API\Request\Action;
 
 use Checkdomain\TeleCash\IPG\API\Model\Payment;
 use Checkdomain\TeleCash\IPG\API\Request\Action;
-use Checkdomain\TeleCash\IPG\API\Response\Action\ValidationResponse;
-use Checkdomain\TeleCash\IPG\API\Response\ErrorResponse;
+use Checkdomain\TeleCash\IPG\API\Response\Action\Validation;
+use Checkdomain\TeleCash\IPG\API\Response\Error;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
@@ -31,14 +31,14 @@ class ValidateHostedData extends Action
     }
 
     /**
-     * @return ValidationResponse|ErrorResponse
+     * @return Validation|Error
      * @throws \Exception
      */
     public function validate()
     {
         $response = $this->service->IPGApiAction($this);
 
-        return $response instanceof ErrorResponse ? $response : new ValidationResponse($response);
+        return $response instanceof Error ? $response : new Validation($response);
     }
 
 }

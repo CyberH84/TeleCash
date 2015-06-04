@@ -6,11 +6,11 @@ use Checkdomain\TeleCash\IPG\API\AbstractResponse;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
- * Class ErrorResponse
+ * Class Error
  *
  * @package Checkdomain\TeleCash\IPG\API
  */
-class ErrorResponse extends AbstractResponse
+class Error extends AbstractResponse
 {
 
     const SOAP_ERROR_SERVER = 'SOAP-ENV:Server';
@@ -79,7 +79,7 @@ class ErrorResponse extends AbstractResponse
     /**
      * @param \DOMDocument $document
      *
-     * @return ErrorResponse|null
+     * @return Error|null
      * @throws \Exception
      */
     public static function createFromSoapFault(\DOMDocument $document)
@@ -88,7 +88,7 @@ class ErrorResponse extends AbstractResponse
         $errorElement = $document->getElementsByTagNameNS(OrderService::NAMESPACE_SOAP, 'Fault');
 
         if ($errorElement->length > 0) {
-            $response = new ErrorResponse();
+            $response = new Error();
 
             $faultCode              = $document->getElementsByTagName('faultcode');
             $response->errorMessage = $document->getElementsByTagName('faultstring')->item(0)->nodeValue;

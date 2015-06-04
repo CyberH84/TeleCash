@@ -2,14 +2,15 @@
 
 namespace Checkdomain\TeleCash\IPG\API\Response\Action;
 
+use Checkdomain\TeleCash\IPG\API\Response\Action;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
- * Class ValidationResponse
+ * Class Validation
  *
  * @package Checkdomain\TeleCash\IPG\API\Action
  */
-class ValidationResponse extends AbstractActionResponse
+class Validation extends Action
 {
 
     /**

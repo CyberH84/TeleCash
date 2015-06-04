@@ -4,8 +4,8 @@ namespace Checkdomain\TeleCash\IPG\API\Request\Transaction;
 
 use Checkdomain\TeleCash\IPG\API\Model\Payment;
 use Checkdomain\TeleCash\IPG\API\Request\Transaction;
-use Checkdomain\TeleCash\IPG\API\Response\ErrorResponse;
-use Checkdomain\TeleCash\IPG\API\Response\Order\SellResponse;
+use Checkdomain\TeleCash\IPG\API\Response\Error;
+use Checkdomain\TeleCash\IPG\API\Response\Order\Sell;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
@@ -34,14 +34,14 @@ class SellHostedData extends Transaction
     }
 
     /**
-     * @return SellResponse|ErrorResponse
+     * @return Sell|Error
      * @throws \Exception
      */
     public function sell()
     {
         $response = $this->service->IPGApiOrder($this);
 
-        return $response instanceof ErrorResponse ? $response : new SellResponse($response);
+        return $response instanceof Error ? $response : new Sell($response);
     }
 
 }

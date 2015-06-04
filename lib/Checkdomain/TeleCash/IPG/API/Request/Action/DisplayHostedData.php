@@ -4,8 +4,8 @@ namespace Checkdomain\TeleCash\IPG\API\Request\Action;
 
 use Checkdomain\TeleCash\IPG\API\Model\DataStorageItem;
 use Checkdomain\TeleCash\IPG\API\Request\Action;
-use Checkdomain\TeleCash\IPG\API\Response\Action\DisplayResponse;
-use Checkdomain\TeleCash\IPG\API\Response\ErrorResponse;
+use Checkdomain\TeleCash\IPG\API\Response\Action\Display;
+use Checkdomain\TeleCash\IPG\API\Response\Error;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
@@ -32,14 +32,14 @@ class DisplayHostedData extends Action
     }
 
     /**
-     * @return DisplayResponse|ErrorResponse
+     * @return Display|Error
      * @throws \Exception
      */
     public function display()
     {
         $response = $this->service->IPGApiAction($this);
 
-        return $response instanceof ErrorResponse ? $response : new DisplayResponse($response);
+        return $response instanceof Error ? $response : new Display($response);
     }
 
 }

@@ -5,8 +5,8 @@ namespace Checkdomain\TeleCash\IPG\API\Request\Action;
 use Checkdomain\TeleCash\IPG\API\Model\Payment;
 use Checkdomain\TeleCash\IPG\API\Model\RecurringPaymentInformation;
 use Checkdomain\TeleCash\IPG\API\Request\Action;
-use Checkdomain\TeleCash\IPG\API\Response\Action\ConfirmRecurringResponse;
-use Checkdomain\TeleCash\IPG\API\Response\ErrorResponse;
+use Checkdomain\TeleCash\IPG\API\Response\Action\ConfirmRecurring;
+use Checkdomain\TeleCash\IPG\API\Response\Error;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
@@ -79,13 +79,13 @@ abstract class RecurringPayment extends Action
     /**
      * Execute this action
      *
-     * @return ConfirmRecurringResponse|ErrorResponse
+     * @return ConfirmRecurring|Error
      */
     protected function execute()
     {
         $response = $this->service->IPGApiAction($this);
 
-        return $response instanceof ErrorResponse ? $response : new ConfirmRecurringResponse($response);
+        return $response instanceof Error ? $response : new ConfirmRecurring($response);
     }
 
 }

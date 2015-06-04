@@ -1,15 +1,15 @@
 <?php
 
-namespace Checkdomain\TeleCash\IPG\API\Response\Action;
+namespace Checkdomain\TeleCash\IPG\API\Response;
 
 use Checkdomain\TeleCash\IPG\API\AbstractResponse;
 
 /**
- * Class AbstractActionResponse
+ * Class Action
  *
  * @package Checkdomain\TeleCash\IPG\API\Action
  */
-abstract class AbstractActionResponse extends AbstractResponse
+abstract class Action extends AbstractResponse
 {
 
     /**

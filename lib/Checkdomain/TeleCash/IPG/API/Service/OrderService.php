@@ -5,7 +5,7 @@ namespace Checkdomain\TeleCash\IPG\API\Service;
 use Checkdomain\TeleCash\IPG\API\AbstractRequest;
 use Checkdomain\TeleCash\IPG\API\Request\ActionRequest;
 use Checkdomain\TeleCash\IPG\API\Request\OrderRequest;
-use Checkdomain\TeleCash\IPG\API\Response\ErrorResponse;
+use Checkdomain\TeleCash\IPG\API\Response\Error;
 
 /**
  * Class OrderService
@@ -52,18 +52,18 @@ class OrderService extends SoapClientCurl
     /**
      * @param \DOMDocument $responseDoc
      *
-     * @return ErrorResponse|null
+     * @return Error|null
      * @throws \Exception
      */
     private function checkForSoapFault(\DOMDocument $responseDoc)
     {
-        return ErrorResponse::createFromSoapFault($responseDoc);
+        return Error::createFromSoapFault($responseDoc);
     }
 
     /**
      * @param AbstractRequest $payload
      *
-     * @return \DOMDocument|ErrorResponse
+     * @return \DOMDocument|Error
      *
      * @throws \Exception
      */
@@ -108,7 +108,7 @@ class OrderService extends SoapClientCurl
     /**
      * @param ActionRequest $actionRequest
      *
-     * @return \DOMDocument|ErrorResponse
+     * @return \DOMDocument|Error
      */
     public function IPGApiAction(ActionRequest $actionRequest)
     {
@@ -119,7 +119,7 @@ class OrderService extends SoapClientCurl
     /**
      * @param OrderRequest $orderRequest
      *
-     * @return \DOMDocument|ErrorResponse
+     * @return \DOMDocument|Error
      */
     public function IPGApiOrder(OrderRequest $orderRequest)
     {

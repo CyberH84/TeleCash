@@ -4,8 +4,8 @@ namespace Checkdomain\TeleCash\IPG\API\Request\Action;
 
 use Checkdomain\TeleCash\IPG\API\Model\DataStorageItem;
 use Checkdomain\TeleCash\IPG\API\Request\Action;
-use Checkdomain\TeleCash\IPG\API\Response\Action\ConfirmResponse;
-use Checkdomain\TeleCash\IPG\API\Response\ErrorResponse;
+use Checkdomain\TeleCash\IPG\API\Response\Action\Confirm;
+use Checkdomain\TeleCash\IPG\API\Response\Error;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
@@ -32,14 +32,14 @@ class DeleteHostedData extends Action
     }
 
     /**
-     * @return ConfirmResponse|ErrorResponse
+     * @return Confirm|Error
      * @throws \Exception
      */
     public function delete()
     {
         $response = $this->service->IPGApiAction($this);
 
-        return $response instanceof ErrorResponse ? $response : new ConfirmResponse($response);
+        return $response instanceof Error ? $response : new Confirm($response);
     }
 
 }

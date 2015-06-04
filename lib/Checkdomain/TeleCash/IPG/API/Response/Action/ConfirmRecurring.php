@@ -5,11 +5,11 @@ namespace Checkdomain\TeleCash\IPG\API\Response\Action;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
- * Class ConfirmRecurringResponse
+ * Class ConfirmRecurring
  *
  * @package Checkdomain\TeleCash\IPG\API\Action
  */
-class ConfirmRecurringResponse extends ValidationResponse
+class ConfirmRecurring extends Validation
 {
     /** @var string $orderId */
     private $orderId;

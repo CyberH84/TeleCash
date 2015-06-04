@@ -6,11 +6,11 @@ use Checkdomain\TeleCash\IPG\API\AbstractResponse;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
- * Class SellResponse
+ * Class Sell
  *
  * @package Checkdomain\TeleCash\IPG\API\Transaction
  */
-class SellResponse extends AbstractResponse
+class Sell extends AbstractResponse
 {
 
     const RESPONSE_SUCCESS = 'Function performed error-free';
