@@ -9,8 +9,6 @@ use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
  * Class TeleCash
- *
- * @package Checkdomain\TeleCash
  */
 class TeleCash
 {

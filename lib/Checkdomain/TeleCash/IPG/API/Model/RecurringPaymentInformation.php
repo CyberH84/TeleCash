@@ -4,8 +4,6 @@ namespace Checkdomain\TeleCash\IPG\API\Model;
 
 /**
  * Class RecurringPaymentInformation
- *
- * @package Checkdomain\TeleCash\IPG\API\Model
  */
 class RecurringPaymentInformation implements ElementInterface
 {

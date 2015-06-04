@@ -7,8 +7,6 @@ use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
  * Class Confirm
- *
- * @package Checkdomain\TeleCash\IPG\API\Action
  */
 class Confirm extends Action
 {

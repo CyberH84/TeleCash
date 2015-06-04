@@ -7,8 +7,6 @@ use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
  * Class Validation
- *
- * @package Checkdomain\TeleCash\IPG\API\Action
  */
 class Validation extends Action
 {

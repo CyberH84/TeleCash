@@ -5,8 +5,6 @@ namespace Checkdomain\TeleCash\IPG\API\Model;
 
 /**
  * Class CreditCardData
- *
- * @package Checkdomain\TeleCash\IPG\API\Model
  */
 class CreditCardData implements ElementInterface
 {

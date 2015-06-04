@@ -4,8 +4,6 @@ namespace Checkdomain\TeleCash\IPG\API;
 
 /**
  * Class Request
- *
- * @package Checkdomain\TeleCash\IPG\API
  */
 abstract class AbstractRequest
 {

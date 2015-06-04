@@ -10,8 +10,6 @@ use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
  * Class SellHostedData
- *
- * @package Checkdomain\TeleCash\IPG\API\Transaction
  */
 class SellHostedData extends Transaction
 {

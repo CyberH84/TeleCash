@@ -9,8 +9,6 @@ use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
  * Class Cancel
- *
- * @package Checkdomain\TeleCash\IPG\API\Action
  */
 class Cancel extends Action\RecurringPayment
 {

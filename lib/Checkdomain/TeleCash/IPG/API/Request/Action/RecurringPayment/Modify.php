@@ -11,8 +11,6 @@ use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
  * Class Modify
- *
- * @package Checkdomain\TeleCash\IPG\API\Action
  */
 class Modify extends Action\RecurringPayment
 {

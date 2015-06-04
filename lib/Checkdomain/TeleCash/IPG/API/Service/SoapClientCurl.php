@@ -5,9 +5,8 @@ namespace Checkdomain\TeleCash\IPG\API\Service;
 /**
  * Class SoapClientCurl
  *
+ * Inspired by:
  * https://gist.github.com/stefanvangastel/698d5f08c7901f62744d
- *
- * @package Checkdomain\TeleCash\IPG\API\Service
  */
 class SoapClientCurl
 {

@@ -6,8 +6,6 @@ use Checkdomain\TeleCash\IPG\API\AbstractResponse;
 
 /**
  * Class Action
- *
- * @package Checkdomain\TeleCash\IPG\API\Action
  */
 abstract class Action extends AbstractResponse
 {

@@ -10,8 +10,6 @@ use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
  * Class Validate
- *
- * @package Checkdomain\TeleCash\IPG\API\Action
  */
 class Validate extends Action
 {
@@ -24,7 +22,7 @@ class Validate extends Action
     {
         parent::__construct($service);
 
-        $xml = $this->document->createElement('ns2:Validate');
+        $xml    = $this->document->createElement('ns2:Validate');
         $ccData = $creditCardData->getXML($this->document);
         $xml->appendChild($ccData);
         $this->element->getElementsByTagName('ns2:Action')->item(0)->appendChild($xml);

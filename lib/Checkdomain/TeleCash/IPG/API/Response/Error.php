@@ -7,8 +7,6 @@ use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
  * Class Error
- *
- * @package Checkdomain\TeleCash\IPG\API
  */
 class Error extends AbstractResponse
 {

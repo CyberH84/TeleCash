@@ -11,8 +11,6 @@ use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
  * Class RecurringPayment
- *
- * @package Checkdomain\TeleCash\IPG\API\Action
  */
 abstract class RecurringPayment extends Action
 {

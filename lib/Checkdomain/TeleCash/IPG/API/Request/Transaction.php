@@ -6,8 +6,6 @@ use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
  * Class Transaction
- *
- * @package Checkdomain\TeleCash\IPG\API
  */
 class Transaction extends OrderRequest
 {

@@ -10,8 +10,6 @@ use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
  * Class ValidateHostedData
- *
- * @package Checkdomain\TeleCash\IPG\API\Action
  */
 class ValidateHostedData extends Action
 {
@@ -24,7 +22,7 @@ class ValidateHostedData extends Action
     {
         parent::__construct($service);
 
-        $xml = $this->document->createElement('ns2:Validate');
+        $xml    = $this->document->createElement('ns2:Validate');
         $ccData = $payment->getXML($this->document);
         $xml->appendChild($ccData);
         $this->element->getElementsByTagName('ns2:Action')->item(0)->appendChild($xml);

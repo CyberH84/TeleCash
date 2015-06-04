@@ -9,8 +9,6 @@ use Checkdomain\TeleCash\IPG\API\Response\Error;
 
 /**
  * Class OrderService
- *
- * @package Checkdomain\TeleCash\IPG\API\Service
  */
 class OrderService extends SoapClientCurl
 {

@@ -6,8 +6,6 @@ use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
  * Class ConfirmRecurring
- *
- * @package Checkdomain\TeleCash\IPG\API\Action
  */
 class ConfirmRecurring extends Validation
 {

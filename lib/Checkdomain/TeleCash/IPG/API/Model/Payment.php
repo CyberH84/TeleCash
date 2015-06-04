@@ -4,8 +4,6 @@ namespace Checkdomain\TeleCash\IPG\API\Model;
 
 /**
  * Class Payment
- *
- * @package Checkdomain\TeleCash\IPG\API\Model
  */
 class Payment implements ElementInterface
 {

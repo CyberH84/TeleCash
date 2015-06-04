@@ -7,8 +7,6 @@ use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
  * Class Sell
- *
- * @package Checkdomain\TeleCash\IPG\API\Transaction
  */
 class Sell extends AbstractResponse
 {

@@ -4,8 +4,6 @@ namespace Checkdomain\TeleCash\IPG\API\Model;
 
 /**
  * Class DataStorageItem
- *
- * @package Checkdomain\TeleCash\IPG\API\Model
  */
 class DataStorageItem implements ElementInterface
 {

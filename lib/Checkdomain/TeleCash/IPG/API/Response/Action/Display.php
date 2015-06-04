@@ -7,8 +7,6 @@ use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
  * Class Display
- *
- * @package Checkdomain\TeleCash\IPG\API\Action
  */
 class Display extends Action
 {
