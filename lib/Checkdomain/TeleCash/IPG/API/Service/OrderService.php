@@ -38,7 +38,7 @@ class OrderService extends SoapClientCurl
     {
         parent::__construct($curlOptions, $username, $password);
 
-        $this->$debug = $debug;
+        $this->debug = $debug;
     }
 
     /**

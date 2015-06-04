@@ -43,6 +43,8 @@ class TeleCash
 
     private $myService = null;
 
+    private $debug = false;
+
     /**
      * Constructor
      *
@@ -63,6 +65,16 @@ class TeleCash
         $this->clientKeyPath       = $clientKey;
         $this->clientKeyPassPhrase = $clientKeyPassPhrase;
         $this->serverCert          = $serverCert;
+    }
+
+    /**
+     * Set debug mode
+     *
+     * @param bool $debug
+     */
+    public function setDebugMode($debug)
+    {
+        $this->debug = $debug;
     }
 
     /**
@@ -276,7 +288,7 @@ class TeleCash
                 'sslKeyPasswd' => $this->clientKeyPassPhrase,
                 'caInfo'       => $this->serverCert
             ];
-            $this->myService = new OrderService($curlOptions, $this->apiUser, $this->apiPass);
+            $this->myService = new OrderService($curlOptions, $this->apiUser, $this->apiPass, $this->debug);
         }
 
         return $this->myService;
