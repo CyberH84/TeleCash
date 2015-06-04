@@ -1,0 +1,23 @@
+{
+    "name":         "checkdomain/telecash",
+    "description":  "Checkdomain/telecash provides a wrapper to the TeleCash API",
+    "keywords":     ["telecash", "payment service provider"],
+    "type":         "library",
+    "license":      "MIT",
+    "authors": [
+        {
+            "name":     "Torsten Petersdorf",
+            "email":    "t.petersdorf@checkdomain.de",
+            "homepage": "http://checkdomain.de"
+        }
+    ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-0": { "Checkdomain\\TeleCash": "lib/" }
+    }
+}
