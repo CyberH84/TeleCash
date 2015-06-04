@@ -14,7 +14,7 @@ use Checkdomain\TeleCash\IPG\API\Service\OrderService;
  *
  * @package Checkdomain\TeleCash\IPG\API\Action
  */
-class RecurringPaymentAction extends Action
+abstract class RecurringPayment extends Action
 {
 
     const FUNCTION_INSTALL = 'install';
@@ -32,70 +32,26 @@ class RecurringPaymentAction extends Action
 
     /**
      * @param OrderService                $service
+     * @param string                      $function
      * @param Payment                     $payment
      * @param RecurringPaymentInformation $paymentInformation
+     * @param string                      $orderId
      */
     public function __construct(
         OrderService $service,
+        $function,
         Payment $payment = null,
-        RecurringPaymentInformation $paymentInformation = null
+        RecurringPaymentInformation $paymentInformation = null,
+        $orderId = null
     )
     {
         parent::__construct($service);
 
+        $this->function           = $function;
         $this->payment            = $payment;
         $this->paymentInformation = $paymentInformation;
-    }
+        $this->orderId            = $orderId;
 
-    /**
-     * Install a recurring payment
-     *
-     * @return ConfirmRecurringResponse|ErrorResponse
-     */
-    public function install()
-    {
-        $this->function = self::FUNCTION_INSTALL;
-
-        return $this->execute();
-    }
-
-    /**
-     * Modify a recurring payment
-     *
-     * @param string $orderId
-     *
-     * @return ConfirmRecurringResponse|ErrorResponse
-     */
-    public function modify($orderId)
-    {
-        $this->function = self::FUNCTION_MODIFY;
-        $this->orderId  = $orderId;
-
-        return $this->execute();
-    }
-
-    /**
-     * Cancel a recurring payment
-     *
-     * @param string $orderId
-     *
-     * @return ConfirmRecurringResponse|ErrorResponse
-     */
-    public function cancel($orderId)
-    {
-        $this->function = self::FUNCTION_CANCEL;
-        $this->orderId  = $orderId;
-
-        return $this->execute();
-    }
-
-    /**
-     * Execute this action
-     *
-     * @return ConfirmRecurringResponse|ErrorResponse
-     */
-    private function execute()
-    {
         $xml                   = $this->document->createElement('ns2:RecurringPayment');
         $function              = $this->document->createElement('ns2:Function');
         $function->textContent = $this->function;
@@ -118,6 +74,15 @@ class RecurringPaymentAction extends Action
         }
 
         $this->element->getElementsByTagName('ns2:Action')->item(0)->appendChild($xml);
+    }
+
+    /**
+     * Execute this action
+     *
+     * @return ConfirmRecurringResponse|ErrorResponse
+     */
+    protected function execute()
+    {
         $response = $this->service->IPGApiAction($this);
 
         return $response instanceof ErrorResponse ? $response : new ConfirmRecurringResponse($response);

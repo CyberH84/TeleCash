@@ -38,7 +38,7 @@ class DataStorageItem implements ElementInterface
     {
         $xml = $document->createElement('ns2:DataStorageItem');
 
-        $dataId = $document->createElement('ns2:HostedDataID');
+        $dataId              = $document->createElement('ns2:HostedDataID');
         $dataId->textContent = $this->hostedDataId;
 
         if ($this->function != null) {

@@ -9,7 +9,7 @@ use Checkdomain\TeleCash\IPG\API\Model\Payment;
 use Checkdomain\TeleCash\IPG\API\Model\RecurringPaymentInformation;
 use Checkdomain\TeleCash\IPG\API\Request\Action\DeleteHostedDataAction;
 use Checkdomain\TeleCash\IPG\API\Request\Action\DisplayHostedDataAction;
-use Checkdomain\TeleCash\IPG\API\Request\Action\RecurringPaymentAction;
+use Checkdomain\TeleCash\IPG\API\Request\Action\RecurringPayment;
 use Checkdomain\TeleCash\IPG\API\Request\Action\StoreHostedDataAction;
 use Checkdomain\TeleCash\IPG\API\Request\Action\Validate;
 use Checkdomain\TeleCash\IPG\API\Request\Action\ValidateHostedData;
@@ -212,13 +212,13 @@ class TeleCash
 
         $paymentInformation = new RecurringPaymentInformation($startDate, $count, $frequency, $period);
         $payment = new Payment($hostedDataId, $amount);
-        $recurringPaymentAction = new RecurringPaymentAction($service, $payment, $paymentInformation);
+        $recurringPaymentAction = new RecurringPayment\Install($service, $payment, $paymentInformation);
 
         return $recurringPaymentAction->install();
     }
 
     /**
-     * Install a recurring payment, which will only result in a single payment.
+     * Install a recurring payment, which will only result in a single immediate payment.
      *
      * This is a work around for sth.
      *
@@ -235,25 +235,25 @@ class TeleCash
     /**
      * Modify a recurring payment
      *
-     * @param string    $orderId
-     * @param string    $hostedDataId
-     * @param float     $amount
-     * @param \DateTime $startDate
-     * @param int       $count
-     * @param int       $frequency
-     * @param string    $period
+     * @param string         $orderId
+     * @param string         $hostedDataId
+     * @param float          $amount
+     * @param \DateTime|null $startDate
+     * @param int            $count
+     * @param int            $frequency
+     * @param string         $period
      *
      * @return ConfirmRecurringResponse|ErrorResponse
      */
-    public function modifyRecurringPayment($orderId, $hostedDataId, $amount, \DateTime $startDate, $count, $frequency, $period)
+    public function modifyRecurringPayment($orderId, $hostedDataId, $amount, $startDate, $count, $frequency, $period)
     {
         $service = $this->getService();
 
         $paymentInformation = new RecurringPaymentInformation($startDate, $count, $frequency, $period);
         $payment = new Payment($hostedDataId, $amount);
-        $recurringPaymentAction = new RecurringPaymentAction($service, $payment, $paymentInformation);
+        $recurringPaymentAction = new RecurringPayment\Modify($service, $orderId, $payment, $paymentInformation);
 
-        return $recurringPaymentAction->modify($orderId);
+        return $recurringPaymentAction->modify();
     }
 
     /**
@@ -267,9 +267,9 @@ class TeleCash
     {
         $service = $this->getService();
 
-        $recurringPaymentAction = new RecurringPaymentAction($service);
+        $recurringPaymentAction = new RecurringPayment\Cancel($service, $orderId);
 
-        return $recurringPaymentAction->cancel($orderId);
+        return $recurringPaymentAction->cancel();
     }
 
 
