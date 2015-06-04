@@ -9,7 +9,7 @@ use Checkdomain\TeleCash\IPG\API\Response\Action\ValidationResponse;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
- * Class ValidateAction
+ * Class Validate
  *
  * @package Checkdomain\TeleCash\IPG\API\Action
  */

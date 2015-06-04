@@ -9,7 +9,7 @@ use Checkdomain\TeleCash\IPG\API\Response\ErrorResponse;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
- * Class ValidateHostedDataAction
+ * Class ValidateHostedData
  *
  * @package Checkdomain\TeleCash\IPG\API\Action
  */

@@ -10,7 +10,7 @@ use Checkdomain\TeleCash\IPG\API\Response\ErrorResponse;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
- * Class RecurringPaymentAction
+ * Class RecurringPayment
  *
  * @package Checkdomain\TeleCash\IPG\API\Action
  */

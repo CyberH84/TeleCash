@@ -1,6 +1,6 @@
 <?php
 
-namespace Checkdomain\TeleCash\IPG\API\Request\Order;
+namespace Checkdomain\TeleCash\IPG\API\Request\Transaction;
 
 use Checkdomain\TeleCash\IPG\API\Model\Payment;
 use Checkdomain\TeleCash\IPG\API\Request\Transaction;
@@ -9,11 +9,11 @@ use Checkdomain\TeleCash\IPG\API\Response\Order\SellResponse;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
- * Class SellHostedDataTransaction
+ * Class SellHostedData
  *
  * @package Checkdomain\TeleCash\IPG\API\Transaction
  */
-class SellHostedDataTransaction extends Transaction
+class SellHostedData extends Transaction
 {
 
     /**
@@ -25,7 +25,7 @@ class SellHostedDataTransaction extends Transaction
         parent::__construct($service);
 
         $ccTxType = $this->document->createElement('ns1:CreditCardTxType');
-        $ccType = $this->document->createElement('ns1:Type');
+        $ccType   = $this->document->createElement('ns1:Type');
         $ccType->nodeValue = 'sale';
         $ccTxType->appendChild($ccType);
         $paymentData = $payment->getXML($this->document);

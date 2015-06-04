@@ -4,16 +4,16 @@ namespace Checkdomain\TeleCash\IPG\API\Request\Action;
 
 use Checkdomain\TeleCash\IPG\API\Model\DataStorageItem;
 use Checkdomain\TeleCash\IPG\API\Request\Action;
-use Checkdomain\TeleCash\IPG\API\Response\Action\ConfirmResponse;
+use Checkdomain\TeleCash\IPG\API\Response\Action\DisplayResponse;
 use Checkdomain\TeleCash\IPG\API\Response\ErrorResponse;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
- * Class StoreHostedDataAction
+ * Class DisplayHostedData
  *
  * @package Checkdomain\TeleCash\IPG\API\Action
  */
-class StoreHostedDataAction extends Action
+class DisplayHostedData extends Action
 {
 
     /**
@@ -24,6 +24,7 @@ class StoreHostedDataAction extends Action
     {
         parent::__construct($service);
 
+        $storageItem->setFunction("display");
         $xml = $this->document->createElement('ns2:StoreHostedData');
         $storageData = $storageItem->getXML($this->document);
         $xml->appendChild($storageData);
@@ -31,14 +32,14 @@ class StoreHostedDataAction extends Action
     }
 
     /**
-     * @return ConfirmResponse
+     * @return DisplayResponse|ErrorResponse
      * @throws \Exception
      */
-    public function store()
+    public function display()
     {
         $response = $this->service->IPGApiAction($this);
 
-        return $response instanceof ErrorResponse ? $response : new ConfirmResponse($response);
+        return $response instanceof ErrorResponse ? $response : new DisplayResponse($response);
     }
 
 }

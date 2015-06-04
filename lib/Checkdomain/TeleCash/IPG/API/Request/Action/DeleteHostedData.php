@@ -9,11 +9,11 @@ use Checkdomain\TeleCash\IPG\API\Response\ErrorResponse;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
- * Class DeleteHostedDataAction
+ * Class DeleteHostedData
  *
  * @package Checkdomain\TeleCash\IPG\API\Action
  */
-class DeleteHostedDataAction extends Action
+class DeleteHostedData extends Action
 {
 
     /**

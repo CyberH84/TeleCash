@@ -7,13 +7,8 @@ use Checkdomain\TeleCash\IPG\API\Model\CreditCardItem;
 use Checkdomain\TeleCash\IPG\API\Model\DataStorageItem;
 use Checkdomain\TeleCash\IPG\API\Model\Payment;
 use Checkdomain\TeleCash\IPG\API\Model\RecurringPaymentInformation;
-use Checkdomain\TeleCash\IPG\API\Request\Action\DeleteHostedDataAction;
-use Checkdomain\TeleCash\IPG\API\Request\Action\DisplayHostedDataAction;
-use Checkdomain\TeleCash\IPG\API\Request\Action\RecurringPayment;
-use Checkdomain\TeleCash\IPG\API\Request\Action\StoreHostedDataAction;
-use Checkdomain\TeleCash\IPG\API\Request\Action\Validate;
-use Checkdomain\TeleCash\IPG\API\Request\Action\ValidateHostedData;
-use Checkdomain\TeleCash\IPG\API\Request\Order\SellHostedDataTransaction;
+use Checkdomain\TeleCash\IPG\API\Request\Action;
+use Checkdomain\TeleCash\IPG\API\Request\Transaction;
 use Checkdomain\TeleCash\IPG\API\Response\ErrorResponse;
 use Checkdomain\TeleCash\IPG\API\Response\Action\ConfirmRecurringResponse;
 use Checkdomain\TeleCash\IPG\API\Response\Action\ConfirmResponse;
@@ -93,7 +88,7 @@ class TeleCash
         $validMonth     = substr($ccValid, 0, 2);
         $validYear      = substr($ccValid, 3, 4);
         $ccData         = new CreditCardData($ccNumber, $validMonth, $validYear);
-        $validateAction = new Validate($service, $ccData);
+        $validateAction = new Action\Validate($service, $ccData);
 
         return $validateAction->validate();
     }
@@ -116,7 +111,7 @@ class TeleCash
         $validYear   = substr($ccValid, 3, 4);
         $ccData      = new CreditCardData($ccNumber, $validMonth, $validYear);
         $ccItem      = new CreditCardItem($ccData, $hostedDataId);
-        $storeAction = new StoreHostedDataAction($service, $ccItem);
+        $storeAction = new Action\StoreHostedData($service, $ccItem);
 
         return $storeAction->store();
     }
@@ -134,7 +129,7 @@ class TeleCash
         $service = $this->getService();
 
         $storageItem   = new DataStorageItem($hostedDataId);
-        $displayAction = new DisplayHostedDataAction($service, $storageItem);
+        $displayAction = new Action\DisplayHostedData($service, $storageItem);
 
         return $displayAction->display();
     }
@@ -152,7 +147,7 @@ class TeleCash
         $service = $this->getService();
 
         $payment        = new Payment($hostedDataId);
-        $validateAction = new ValidateHostedData($service, $payment);
+        $validateAction = new Action\ValidateHostedData($service, $payment);
 
         return $validateAction->validate();
     }
@@ -170,7 +165,7 @@ class TeleCash
         $service = $this->getService();
 
         $storageItem  = new DataStorageItem($hostedDataId);
-        $deleteAction = new DeleteHostedDataAction($service, $storageItem);
+        $deleteAction = new Action\DeleteHostedData($service, $storageItem);
 
         return $deleteAction->delete();
     }
@@ -189,7 +184,7 @@ class TeleCash
         $service = $this->getService();
 
         $payment    = new Payment($hostedDataId, $amount);
-        $sellAction = new SellHostedDataTransaction($service, $payment);
+        $sellAction = new Transaction\SellHostedData($service, $payment);
 
         return $sellAction->sell();
     }
@@ -210,9 +205,9 @@ class TeleCash
     {
         $service = $this->getService();
 
-        $paymentInformation = new RecurringPaymentInformation($startDate, $count, $frequency, $period);
-        $payment = new Payment($hostedDataId, $amount);
-        $recurringPaymentAction = new RecurringPayment\Install($service, $payment, $paymentInformation);
+        $paymentInformation     = new RecurringPaymentInformation($startDate, $count, $frequency, $period);
+        $payment                = new Payment($hostedDataId, $amount);
+        $recurringPaymentAction = new Action\RecurringPayment\Install($service, $payment, $paymentInformation);
 
         return $recurringPaymentAction->install();
     }
@@ -249,9 +244,9 @@ class TeleCash
     {
         $service = $this->getService();
 
-        $paymentInformation = new RecurringPaymentInformation($startDate, $count, $frequency, $period);
-        $payment = new Payment($hostedDataId, $amount);
-        $recurringPaymentAction = new RecurringPayment\Modify($service, $orderId, $payment, $paymentInformation);
+        $paymentInformation     = new RecurringPaymentInformation($startDate, $count, $frequency, $period);
+        $payment                = new Payment($hostedDataId, $amount);
+        $recurringPaymentAction = new Action\RecurringPayment\Modify($service, $orderId, $payment, $paymentInformation);
 
         return $recurringPaymentAction->modify();
     }
@@ -267,7 +262,7 @@ class TeleCash
     {
         $service = $this->getService();
 
-        $recurringPaymentAction = new RecurringPayment\Cancel($service, $orderId);
+        $recurringPaymentAction = new Action\RecurringPayment\Cancel($service, $orderId);
 
         return $recurringPaymentAction->cancel();
     }
