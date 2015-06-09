@@ -5,8 +5,8 @@ namespace Checkdomain\TeleCash\IPG\API\Request\Action\RecurringPayment;
 use Checkdomain\TeleCash\IPG\API\Model\Payment;
 use Checkdomain\TeleCash\IPG\API\Model\RecurringPaymentInformation;
 use Checkdomain\TeleCash\IPG\API\Request\Action;
-use Checkdomain\TeleCash\IPG\API\Response\Action\ConfirmRecurring;
 use Checkdomain\TeleCash\IPG\API\Response\Error;
+use Checkdomain\TeleCash\IPG\API\Response\Order\Sell;
 use Checkdomain\TeleCash\IPG\API\Service\OrderService;
 
 /**
@@ -31,7 +31,7 @@ class Install extends Action\RecurringPayment
     /**
      * Install a recurring payment
      *
-     * @return ConfirmRecurring|Error
+     * @return Sell|Error
      */
     public function install()
     {

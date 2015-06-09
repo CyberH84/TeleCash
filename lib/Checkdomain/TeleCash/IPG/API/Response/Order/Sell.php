@@ -13,6 +13,11 @@ class Sell extends AbstractResponse
 
     const RESPONSE_SUCCESS = 'Function performed error-free';
 
+    const TRANSACTION_RESULT_APPROVED = 'APPROVED';
+    const TRANSACTION_RESULT_DECLINED = 'DECLINED';
+    const TRANSACTION_RESULT_FRAUD    = 'FRAUD';
+    const TRANSACTION_RESULT_FAILED   = 'FAILED';
+
     /** @var string  */
     protected $approvalCode;
     /** @var string  */
@@ -39,7 +44,7 @@ class Sell extends AbstractResponse
     protected $provider;
     /** @var string  */
     protected $tDate;
-    /** @var  String */
+    /** @var string  */
     protected $terminalId;
     /** @var string  */
     protected $transactionResult;

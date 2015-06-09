@@ -187,7 +187,7 @@ class TeleCash
      * @param int       $frequency
      * @param string    $period
      *
-     * @return Response\Action\ConfirmRecurring|Response\Error
+     * @return Response\Order\Sell|Response\Error
      */
     public function installRecurringPayment($hostedDataId, $amount, \DateTime $startDate, $count, $frequency, $period)
     {
@@ -208,7 +208,7 @@ class TeleCash
      * @param string $hostedDataId
      * @param float  $amount
      *
-     * @return Response\Action\ConfirmRecurring|Response\Error
+     * @return Response\Order\Sell|Response\Error
      */
     public function installOneTimeRecurringPayment($hostedDataId, $amount)
     {

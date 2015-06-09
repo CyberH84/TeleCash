@@ -113,7 +113,7 @@ class Error extends AbstractResponse
                             break;
 
                         case self::SOAP_CLIENT_ERROR_PROCESSING:
-                            $response->clientErrorDetail = self::firstElementByTagNSString($document, OrderService::NAMESPACE_N3, 'ErrorMessage');;
+                            $response->clientErrorDetail = $response->firstElementByTagNSString($document, OrderService::NAMESPACE_N3, 'ErrorMessage');;
                             break;
 
                         default:
