@@ -190,10 +190,6 @@ class Sell extends AbstractResponse
 
         //Request was successful, otherwise an Exception would have been raised in OrderService::checkSoapError
 
-        if ($this->processorResponse != self::RESPONSE_SUCCESS) {
-            throw new \Exception('Sell Transaction failed (' . $responseDoc->saveXML() . ')');
-        }
-
         $this->approvalCode             = $this->firstElementByTagNSString($responseDoc, OrderService::NAMESPACE_N3, 'ApprovalCode');
         $this->avsResponse              = $this->firstElementByTagNSString($responseDoc, OrderService::NAMESPACE_N3, 'AVSResponse');
         $this->brand                    = $this->firstElementByTagNSString($responseDoc, OrderService::NAMESPACE_N3, 'Brand');
