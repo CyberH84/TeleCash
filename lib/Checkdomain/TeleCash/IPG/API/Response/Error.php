@@ -17,6 +17,8 @@ class Error extends AbstractResponse
     const SOAP_CLIENT_ERROR_MERCHANT   = 'MerchantException';
     const SOAP_CLIENT_ERROR_PROCESSING = 'ProcessingException';
 
+    const ERROR_TYPE_NOT_SUCCESSFUL = 'Not successful';
+
     /** @var string $errorType */
     private $errorType;
     /** @var string $errorMessage */
