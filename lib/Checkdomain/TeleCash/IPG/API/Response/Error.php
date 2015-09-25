@@ -17,6 +17,8 @@ class Error extends AbstractResponse
     const SOAP_CLIENT_ERROR_MERCHANT   = 'MerchantException';
     const SOAP_CLIENT_ERROR_PROCESSING = 'ProcessingException';
 
+    const ERROR_TYPE_SERVER         = 'Server-Error';
+    const ERROR_TYPE_CLIENT         = 'Client-Error';
     const ERROR_TYPE_NOT_SUCCESSFUL = 'Not successful';
 
     /** @var string $errorType */
@@ -67,7 +69,7 @@ class Error extends AbstractResponse
     {
         $exceptionText = "SOAP Error: " . $this->errorType . " ";
 
-        if ($this->errorType === 'Server-Error') {
+        if ($this->errorType === self::ERROR_TYPE_SERVER) {
             $exceptionText .= '(' . $this->errorMessage . ')';
         } else {
             $exceptionText .= '(' . $this->clientErrorType . ': ' . $this->clientErrorDetail . ')';
@@ -95,12 +97,12 @@ class Error extends AbstractResponse
 
             switch ($faultCode->item(0)->nodeValue) {
                 case self::SOAP_ERROR_SERVER:
-                    $response->errorType = 'Server-Error';
+                    $response->errorType = self::ERROR_TYPE_SERVER;
 
                     break;
 
                 case self::SOAP_ERROR_CLIENT:
-                    $response->errorType   = 'Client-Error';
+                    $response->errorType   = self::ERROR_TYPE_CLIENT;
                     $errorDetail = $document->getElementsByTagName('detail');
 
                     if (strpos($response->errorMessage, ':') !== false) {
