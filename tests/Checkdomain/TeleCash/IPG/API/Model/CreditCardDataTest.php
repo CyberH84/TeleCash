@@ -33,8 +33,12 @@ class CreditCardDataTest extends \PHPUnit_Framework_TestCase
             $children[$child->nodeName] = $child->nodeValue;
         }
 
-        $this->assertArrayHasKey('ns1:CardNumber', $children, 'Expected element CardNumber not found');
-        $this->assertEquals($ccNumber, $children['ns1:CardNumber'], 'Card number did not match');
+        if ($ccNumber !== null) {
+            $this->assertArrayHasKey('ns1:CardNumber', $children, 'Expected element CardNumber not found');
+            $this->assertEquals($ccNumber, $children['ns1:CardNumber'], 'Card number did not match');
+        } else {
+            $this->assertArrayNotHasKey('ns1:CardNumber', $children, 'Unexpected element CardNumber was found');
+        }
         $this->assertArrayHasKey('ns1:ExpMonth', $children, 'Expected element ExpMonth not found');
         $this->assertEquals($validMonth, $children['ns1:ExpMonth'], 'Valid month did not match');
         $this->assertArrayHasKey('ns1:ExpYear', $children, 'Expected element ExpYear not found');
@@ -51,7 +55,7 @@ class CreditCardDataTest extends \PHPUnit_Framework_TestCase
         return [
             ['12345678901234', '12', '20'],
             ['41111111111111', '10', '20'],
-            ['11122233344455', '12', '16']
+            [null, '12', '16']
         ];
     }
 }

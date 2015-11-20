@@ -38,14 +38,16 @@ class CreditCardData implements ElementInterface
     public function getXML(\DOMDocument $document)
     {
         $xml = $document->createElement('ns2:CreditCardData');
-        $cardNumber = $document->createElement('ns1:CardNumber');
-        $cardNumber->textContent = $this->cardNumber;
+        if (!empty($this->cardNumber)) {
+            $cardNumber              = $document->createElement('ns1:CardNumber');
+            $cardNumber->textContent = $this->cardNumber;
+            $xml->appendChild($cardNumber);
+        }
         $expMonth = $document->createElement('ns1:ExpMonth');
         $expMonth->textContent = $this->expMonth;
         $expYear = $document->createElement('ns1:ExpYear');
         $expYear->textContent = $this->expYear;
 
-        $xml->appendChild($cardNumber);
         $xml->appendChild($expMonth);
         $xml->appendChild($expYear);
 
