@@ -95,6 +95,10 @@ class OrderService extends SoapClientCurl
             throw new \Exception($this->getErrorMessage());
         }
 
+        if (empty($response)) {
+            throw new \Exception('Empty API response received');
+        }
+
         $responseDoc = new \DOMDocument('1.0', 'UTF-8');
         $responseDoc->loadXML($response);
 
