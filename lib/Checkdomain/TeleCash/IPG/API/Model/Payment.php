@@ -16,10 +16,10 @@ class Payment implements ElementInterface
     private $amount;
 
     /**
-     * @param string $hostedDataId
-     * @param float  $amount
+     * @param string|null $hostedDataId
+     * @param float|null  $amount
      */
-    public function __construct($hostedDataId, $amount = null)
+    public function __construct($hostedDataId = null, $amount = null)
     {
         $this->hostedDataId = $hostedDataId;
         $this->amount       = $amount;
@@ -32,13 +32,16 @@ class Payment implements ElementInterface
      */
     public function getXML(\DOMDocument $document)
     {
-        $xml                       = $document->createElement('ns1:Payment');
-        $hostedDataId              = $document->createElement('ns1:HostedDataID');
-        $hostedDataId->textContent = $this->hostedDataId;
+        $xml = $document->createElement('ns1:Payment');
 
-        $xml->appendChild($hostedDataId);
+        if (!empty($this->hostedDataId)) {
+            $hostedDataId = $document->createElement('ns1:HostedDataID');
+            $hostedDataId->textContent = $this->hostedDataId;
 
-        if ($this->amount !== null) {
+            $xml->appendChild($hostedDataId);
+        }
+
+        if (!empty($this->amount)) {
             $amount                = $document->createElement('ns1:ChargeTotal');
             $amount->textContent   = $this->amount;
             $currency              = $document->createElement('ns1:Currency');

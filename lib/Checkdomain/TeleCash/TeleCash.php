@@ -65,18 +65,19 @@ class TeleCash
      *
      * @param string $ccNumber
      * @param string $ccValid
+     * @param float  $amount
      *
      * @return Response\Action\Validation|Response\Error
      * @throws \Exception
      */
-    public function validate($ccNumber, $ccValid)
+    public function validate($ccNumber, $ccValid, $amount = 1.0)
     {
         $service = $this->getService();
 
         $validMonth     = substr($ccValid, 0, 2);
         $validYear      = substr($ccValid, 3, 4);
         $ccData         = new Model\CreditCardData($ccNumber, $validMonth, $validYear);
-        $validateAction = new Request\Action\Validate($service, $ccData);
+        $validateAction = new Request\Action\Validate($service, $ccData, $amount);
 
         return $validateAction->validate();
     }
