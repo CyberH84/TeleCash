@@ -23,6 +23,9 @@ class Validation extends Action
 
         if ($actionResponse->length > 0) {
             $this->wasSuccessful = ($success === 'true');
+            if (false === $this->wasSuccessful) {
+                $this->errorMessage = $this->firstElementByTagNSString($responseDoc, OrderService::NAMESPACE_N2, 'ErrorMessage');
+            }
         } else {
             throw new \Exception("Validate Call failed " . $responseDoc->saveXML());
         }
