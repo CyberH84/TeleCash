@@ -3,6 +3,7 @@
 namespace Checkdomain\TeleCash\IPG\API\Request\Transaction;
 
 use Checkdomain\TeleCash\IPG\API\Model\Payment;
+use Checkdomain\TeleCash\IPG\API\Model\TransactionDetails;
 use Checkdomain\TeleCash\IPG\API\Request\Transaction;
 use Checkdomain\TeleCash\IPG\API\Response\Error;
 use Checkdomain\TeleCash\IPG\API\Response\Order\Sell;
@@ -15,10 +16,11 @@ class SellHostedData extends Transaction
 {
 
     /**
-     * @param OrderService $service
-     * @param Payment      $payment
+     * @param OrderService            $service
+     * @param Payment                 $payment
+     * @param TransactionDetails|null $transactionDetails
      */
-    public function __construct(OrderService $service, Payment $payment)
+    public function __construct(OrderService $service, Payment $payment, TransactionDetails $transactionDetails = null)
     {
         parent::__construct($service);
 
@@ -27,8 +29,13 @@ class SellHostedData extends Transaction
         $ccType->nodeValue = 'sale';
         $ccTxType->appendChild($ccType);
         $paymentData = $payment->getXML($this->document);
-        $this->element->getElementsByTagName('ns1:Transaction')->item(0)->appendChild($ccTxType);
-        $this->element->getElementsByTagName('ns1:Transaction')->item(0)->appendChild($paymentData);
+        $this->getTransactionElement()->appendChild($ccTxType);
+        $this->getTransactionElement()->appendChild($paymentData);
+
+        if (null !== $transactionDetails) {
+            $transactionDetailsData = $transactionDetails->getXML($this->document);
+            $this->getTransactionElement()->appendChild($transactionDetailsData);
+        }
     }
 
     /**

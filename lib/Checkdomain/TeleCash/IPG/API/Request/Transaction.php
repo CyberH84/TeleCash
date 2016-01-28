@@ -20,4 +20,9 @@ class Transaction extends OrderRequest
         $this->element->appendChild($this->document->createElement('ns1:Transaction'));
     }
 
+    protected function getTransactionElement()
+    {
+        return $this->element->getElementsByTagName('ns1:Transaction')->item(0);
+    }
+
 }

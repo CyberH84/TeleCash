@@ -66,18 +66,19 @@ class TeleCash
      * @param string $ccNumber
      * @param string $ccValid
      * @param float  $amount
+     * @param string $text
      *
      * @return Response\Action\Validation|Response\Error
      * @throws \Exception
      */
-    public function validate($ccNumber, $ccValid, $amount = 1.0)
+    public function validate($ccNumber, $ccValid, $amount = 1.0, $text = null)
     {
         $service = $this->getService();
 
         $validMonth     = substr($ccValid, 0, 2);
         $validYear      = substr($ccValid, 3, 4);
         $ccData         = new Model\CreditCardData($ccNumber, $validMonth, $validYear);
-        $validateAction = new Request\Action\Validate($service, $ccData, $amount);
+        $validateAction = new Request\Action\Validate($service, $ccData, $amount, $text);
 
         return $validateAction->validate();
     }
@@ -162,18 +163,25 @@ class TeleCash
     /**
      * Make a sale using a previously stored credit card information
      *
-     * @param string $hostedDataId
-     * @param float  $amount
+     * @param string      $hostedDataId
+     * @param float       $amount
+     * @param string|null $comments
+     * @param string|null $invoiceNumber
      *
      * @return Response\Order\Sell|Response\Error
      * @throws \Exception
      */
-    public function sellUsingHostedData($hostedDataId, $amount)
+    public function sellUsingHostedData($hostedDataId, $amount, $comments = null, $invoiceNumber = null)
     {
         $service = $this->getService();
 
-        $payment    = new Model\Payment($hostedDataId, $amount);
-        $sellAction = new Request\Transaction\SellHostedData($service, $payment);
+        $payment = new Model\Payment($hostedDataId, $amount);
+        if (!empty($comments) || !empty($invoiceNumber)) {
+            $transactionDetails = new Model\TransactionDetails('ns1', $comments, $invoiceNumber);
+        } else {
+            $transactionDetails = null;
+        }
+        $sellAction = new Request\Transaction\SellHostedData($service, $payment, $transactionDetails);
 
         return $sellAction->sell();
     }

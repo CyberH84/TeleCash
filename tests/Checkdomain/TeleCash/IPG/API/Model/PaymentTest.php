@@ -32,14 +32,21 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
             $children[$child->nodeName] = $child->nodeValue;
         }
 
-        $this->assertArrayHasKey('ns1:HostedDataID', $children, 'Expected element HostedDataID not found');
-        $this->assertEquals($hostedDataId, $children['ns1:HostedDataID'], 'Hosted data id did not match');
+        if ($hostedDataId !== null) {
+            $this->assertArrayHasKey('ns1:HostedDataID', $children, 'Expected element HostedDataID not found');
+            $this->assertEquals($hostedDataId, $children['ns1:HostedDataID'], 'Hosted data id did not match');
+        } else {
+            $this->assertArrayNotHasKey('ns1:HostedDataID', $children, 'Unexpected element HostedDataID was found');
+        }
 
         if ($amount !== null) {
             $this->assertArrayHasKey('ns1:ChargeTotal', $children, 'Expected element ChargeTotal not found');
             $this->assertEquals($amount, $children['ns1:ChargeTotal'], 'Charge total did not match');
             $this->assertArrayHasKey('ns1:Currency', $children, 'Expected element Currency not found');
             $this->assertEquals('978', $children['ns1:Currency'], 'Currency did not match');
+        } else {
+            $this->assertArrayNotHasKey('ns1:ChargeTotal', $children, 'Unexpected element ChargeTotal was found');
+            $this->assertArrayNotHasKey('ns1:Currency', $children, 'Unexpected element Currency was found');
         }
     }
 
@@ -52,7 +59,8 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         return [
             ['abc-def', null],
-            ['abc-def', 1.23]
+            ['abc-def', 1.23],
+            [null, 1.23]
         ];
     }
 }

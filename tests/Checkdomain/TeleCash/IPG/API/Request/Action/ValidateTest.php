@@ -12,15 +12,17 @@ class ValidateTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param CreditCardData $ccData
+     * @param float          $amount
+     * @param string         $text
      *
      * @dataProvider dataProvider
      */
-    public function testXMLGeneration($ccData)
+    public function testXMLGeneration($ccData, $amount, $text)
     {
         $prophet = new Prophet();
         $orderService  = $prophet->prophesize('Checkdomain\TeleCash\IPG\API\Service\OrderService');
 
-        $validate = new Validate($orderService->reveal(), $ccData);
+        $validate = new Validate($orderService->reveal(), $ccData, $amount, $text);
         $document = $validate->getDocument();
         $document->appendChild($validate->getElement());
 
@@ -34,7 +36,35 @@ class ValidateTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertArrayHasKey('ns2:CreditCardData', $children, 'Expected element CreditCardData not found');
-        //no need to further test CreditCardData, as this is already covered in CreditCardDataTest
+
+        if ($amount !== 1.0) {
+            $this->assertArrayHasKey('ns1:Payment', $children, 'Expected element Payment not found');
+
+            $elementPayment  = $document->getElementsByTagName('ns1:Payment');
+            $paymentChildren = [];
+            /** @var \DOMNode $child */
+            foreach ($elementPayment->item(0)->childNodes as $child) {
+                $paymentChildren[$child->nodeName] = $child->nodeValue;
+            }
+
+            $this->assertEquals($amount, $paymentChildren['ns1:ChargeTotal'], 'Amount did not match');
+        } else {
+            $this->assertArrayNotHasKey('ns1:Payment', $children, 'Unexpected element Payment was found');
+        }
+
+        if ($text !== null) {
+            $this->assertArrayHasKey('ns2:TransactionDetails', $children, 'Expected element TransactionDetails not found');
+
+            $elementDetails  = $document->getElementsByTagName('ns2:TransactionDetails');
+            $detailsChildren = [];
+            /** @var \DOMNode $child */
+            foreach ($elementDetails->item(0)->childNodes as $child) {
+                $detailsChildren[$child->nodeName] = $child->nodeValue;
+            }
+            $this->assertEquals($text, $detailsChildren['ns1:Comments'], 'Comments did not match');
+        } else {
+            $this->assertArrayNotHasKey('ns2:TransactionDetails', $children, 'Unexpected element TransactionDetails was found');
+        }
     }
 
     /**
@@ -45,7 +75,10 @@ class ValidateTest extends \PHPUnit_Framework_TestCase
     public function dataProvider()
     {
         return [
-            [new CreditCardData('12345678901234', '01', '00')]
+            [new CreditCardData('12345678901234', '01', '00'), 1.0, null],
+            [new CreditCardData('12345678901234', '01', '00'), 3.0, null],
+            [new CreditCardData('12345678901234', '01', '00'), 1.0, 'Testkommentar'],
+            [new CreditCardData('12345678901234', '01', '00'), 3.0, 'Testkommentar'],
         ];
     }
 }

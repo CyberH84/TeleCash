@@ -2,6 +2,7 @@
 
 namespace Checkdomain\TeleCash\IPG\API\Request\Action;
 use Checkdomain\TeleCash\IPG\API\Model\Payment;
+use Checkdomain\TeleCash\IPG\API\Model\TransactionDetails;
 use Checkdomain\TeleCash\IPG\API\Request\Transaction\SellHostedData;
 use Prophecy\Prophet;
 
@@ -12,16 +13,17 @@ class SellHostedDataTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @param Payment $payment
+     * @param Payment            $payment
+     * @param TransactionDetails $transactionDetails
      *
      * @dataProvider dataProvider
      */
-    public function testXMLGeneration($payment)
+    public function testXMLGeneration($payment, $transactionDetails)
     {
         $prophet = new Prophet();
         $orderService  = $prophet->prophesize('Checkdomain\TeleCash\IPG\API\Service\OrderService');
 
-        $sellHosted = new SellHostedData($orderService->reveal(), $payment);
+        $sellHosted = new SellHostedData($orderService->reveal(), $payment, $transactionDetails);
         $document   = $sellHosted->getDocument();
         $document->appendChild($sellHosted->getElement());
 
@@ -39,7 +41,14 @@ class SellHostedDataTest extends \PHPUnit_Framework_TestCase
 
         $elementPayment = $document->getElementsByTagName('ns1:Payment');
         $this->assertEquals(1, $elementPayment->length, 'Expected element Payment not found');
-        //no need to further test Payment, as this is already covered in PaymentTest
+
+        if ($transactionDetails !== null) {
+            $elementDetails = $document->getElementsByTagName('ns2:TransactionDetails');
+            $this->assertEquals(1, $elementDetails->length, 'Expected element TransactionDetails not found');
+        } else {
+            $elementDetails = $document->getElementsByTagName('ns2:TransactionDetails');
+            $this->assertEquals(0, $elementDetails->length, 'Unexpected element TransactionDetails was found');
+        }
     }
 
     /**
@@ -50,7 +59,8 @@ class SellHostedDataTest extends \PHPUnit_Framework_TestCase
     public function dataProvider()
     {
         return [
-            [new Payment('abc-def')]
+            [new Payment('abc-def'), null],
+            [new Payment('abc-def'), new TransactionDetails('Testkommentar', '1234-TestTestTest')],
         ];
     }
 }
