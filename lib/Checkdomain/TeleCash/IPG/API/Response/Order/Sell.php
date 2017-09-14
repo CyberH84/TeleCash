@@ -211,6 +211,13 @@ class Sell extends AbstractResponse
             if ($list->length > 0) {
                 $this->wasSuccessful = ($list->item(0)->nodeValue === Sell::RESPONSE_SUCCESS);
             }
+
+            if ($this->wasSuccessful === false) {
+                $list = $responseDoc->getElementsByTagNameNS(OrderService::NAMESPACE_N3, 'TransactionResult');
+                if ($list->length > 0) {
+                    $this->wasSuccessful = ($list->item(0)->nodeValue === Sell::TRANSACTION_RESULT_APPROVED);
+                }
+            }
         }
 
         return $this->wasSuccessful;
