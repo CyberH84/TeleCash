@@ -18,6 +18,6 @@
         "phpunit/phpunit": "~4.0"
     },
     "autoload": {
-        "psr-4": { "Checkdomain\\TeleCash": "lib/" }
+        "psr-4": { "Checkdomain\\TeleCash\\": "lib/" }
     }
 }
